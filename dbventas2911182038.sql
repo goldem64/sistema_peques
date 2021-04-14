@@ -24,11 +24,11 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ANIO_GRAFICO` ()  BEGIN
+CREATE  PROCEDURE `ANIO_GRAFICO` ()  BEGIN
 	select distinct year(Fecha) as anio from venta;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reporte_grafico_dias` ()  SELECT
+CREATE  PROCEDURE `reporte_grafico_dias` ()  SELECT
  v.fecha,dayname(v.Fecha) as mes, sum(v.totalpagar) as total_dia
 	from venta v inner join detalleventa dv on v.IdVenta = dv.IdVenta
 
@@ -37,7 +37,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reporte_grafico_dias` ()  SELECT
 		order by day(v.Fecha) desc
 			limit 15$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reporte_grafico_mes` ()  SELECT
+CREATE  PROCEDURE `reporte_grafico_mes` ()  SELECT
  monthname(v.Fecha) as mes, sum(v.totalpagar) as total_dia
 	from venta v inner join detalleventa dv on v.IdVenta = dv.IdVenta
 
@@ -46,7 +46,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `reporte_grafico_mes` ()  SELECT
 		order by month(v.Fecha) desc
 			limit 12$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `reporte_grafico_totales` ()  SELECT
+CREATE  PROCEDURE `reporte_grafico_totales` ()  SELECT
 distinct monthname(v.Fecha) as mes ,
  sum(p.precioventa-p.preciocosto) as total_utilidad, sum(v.totalpagar) as total_venta,
 	sum(c.total) as total_compra
@@ -59,124 +59,124 @@ distinct monthname(v.Fecha) as mes ,
 		order by monthname(v.Fecha) desc
 			limit 1$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Categoria` (`pdescripcion` VARCHAR(100))  BEGIN		
+CREATE  PROCEDURE `SP_I_Categoria` (`pdescripcion` VARCHAR(100))  BEGIN		
 		INSERT INTO categoria(descripcion)
 		VALUES(pdescripcion);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Cliente` (`pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(50), `ptelefono` VARCHAR(15), `pobsv` TEXT, `pusuario` VARCHAR(30), `pcontrasena` VARCHAR(10))  BEGIN		
+CREATE  PROCEDURE `SP_I_Cliente` (`pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(50), `ptelefono` VARCHAR(15), `pobsv` TEXT, `pusuario` VARCHAR(30), `pcontrasena` VARCHAR(10))  BEGIN		
 		INSERT INTO cliente(nombre,ruc,dni,direccion,telefono,obsv,usuario,contrasena)
 		VALUES(pnombre,pruc,pdni,pdireccion,ptelefono,pobsv,pusuario,pcontrasena);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Color` (`pdescripcion` VARCHAR(100))  BEGIN		
+CREATE  PROCEDURE `SP_I_Color` (`pdescripcion` VARCHAR(100))  BEGIN		
 		INSERT INTO color(descripcion)
 		VALUES(pdescripcion);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Compra` (`pidtipodocumento` INT, `pidproveedor` INT, `pidempleado` INT, `pnumero` VARCHAR(20), `pfecha` DATE, `psubtotal` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotal` DECIMAL(8,2), `pestado` VARCHAR(30))  BEGIN		
+CREATE  PROCEDURE `SP_I_Compra` (`pidtipodocumento` INT, `pidproveedor` INT, `pidempleado` INT, `pnumero` VARCHAR(20), `pfecha` DATE, `psubtotal` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotal` DECIMAL(8,2), `pestado` VARCHAR(30))  BEGIN		
 		INSERT INTO compra(idtipodocumento,idproveedor,idempleado,numero,fecha,subtotal,igv,total,estado)
 		VALUES(pidtipodocumento,pidproveedor,pidempleado,pnumero,pfecha,psubtotal,pigv,ptotal,pestado);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_DetalleCompra` (`pidcompra` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN		
+CREATE  PROCEDURE `SP_I_DetalleCompra` (`pidcompra` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN		
 		INSERT INTO detallecompra(idcompra,idproducto,cantidad,precio,total)
 		VALUES(pidcompra,pidproducto,pcantidad,pprecio,ptotal);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_DetalleVenta` (`pidventa` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pcosto` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN		
+CREATE  PROCEDURE `SP_I_DetalleVenta` (`pidventa` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pcosto` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN		
 		INSERT INTO detalleventa(idventa,idproducto,cantidad,costo,precio,total)
 		VALUES(pidventa,pidproducto,pcantidad,pcosto,pprecio,ptotal);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Empleado` (`pnombre` VARCHAR(50), `papellido` VARCHAR(80), `psexo` VARCHAR(1), `pfechanac` DATE, `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pdni` VARCHAR(8), `pfechaing` DATE, `psueldo` DECIMAL(8,2), `pestado` VARCHAR(30), `pusuario` VARCHAR(20), `pcontrasena` TEXT, `pidtipousuario` INT)  BEGIN		
+CREATE  PROCEDURE `SP_I_Empleado` (`pnombre` VARCHAR(50), `papellido` VARCHAR(80), `psexo` VARCHAR(1), `pfechanac` DATE, `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pdni` VARCHAR(8), `pfechaing` DATE, `psueldo` DECIMAL(8,2), `pestado` VARCHAR(30), `pusuario` VARCHAR(20), `pcontrasena` TEXT, `pidtipousuario` INT)  BEGIN		
 		INSERT INTO empleado(nombre,apellido,sexo,fechanac,direccion,telefono,celular,email,dni,fechaing,sueldo,estado,usuario,contrasena,idtipousuario)
 		VALUES(pnombre,papellido,psexo,pfechanac,pdireccion,ptelefono,pcelular,pemail,pdni,pfechaing,psueldo,pestado,pusuario,pcontrasena,pidtipousuario);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Producto` (`pcodigo` VARCHAR(50), `pnombre` VARCHAR(100), `pdescripcion` TEXT, `pstock` DECIMAL(8,2), `pstockmin` DECIMAL(8,2), `ppreciocosto` DECIMAL(8,2), `pprecioventa` DECIMAL(8,2), `putilidad` DECIMAL(8,2), `pestado` VARCHAR(30), `pimagen` VARCHAR(100), `pidcategoria` INT, `pidproveedor` INT, `pidcolor` INT, `pidtalla` INT)  BEGIN		
+CREATE  PROCEDURE `SP_I_Producto` (`pcodigo` VARCHAR(50), `pnombre` VARCHAR(100), `pdescripcion` TEXT, `pstock` DECIMAL(8,2), `pstockmin` DECIMAL(8,2), `ppreciocosto` DECIMAL(8,2), `pprecioventa` DECIMAL(8,2), `putilidad` DECIMAL(8,2), `pestado` VARCHAR(30), `pimagen` VARCHAR(100), `pidcategoria` INT, `pidproveedor` INT, `pidcolor` INT, `pidtalla` INT)  BEGIN		
 		INSERT INTO producto(codigo,nombre,descripcion,stock,stockmin,preciocosto,precioventa,utilidad,estado,imagen,idcategoria,idproveedor,idcolor,idtalla)
 		VALUES(pcodigo,pnombre,pdescripcion,pstock,pstockmin,ppreciocosto,pprecioventa,putilidad,pestado,pimagen,pidcategoria,pidproveedor,pidcolor,pidtalla);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Promocion` (`pcodigo` VARCHAR(50), `pdescuento` DECIMAL(4,2), `pestado` VARCHAR(50))  BEGIN		
+CREATE  PROCEDURE `SP_I_Promocion` (`pcodigo` VARCHAR(50), `pdescuento` DECIMAL(4,2), `pestado` VARCHAR(50))  BEGIN		
 		INSERT INTO promocion(codigo,descuento,estado)
 		VALUES(pcodigo,pdescuento,pestado);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Proveedor` (`pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pcuenta1` VARCHAR(50), `pcuenta2` VARCHAR(50), `pestado` VARCHAR(30), `pobsv` TEXT)  BEGIN		
+CREATE  PROCEDURE `SP_I_Proveedor` (`pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pcuenta1` VARCHAR(50), `pcuenta2` VARCHAR(50), `pestado` VARCHAR(30), `pobsv` TEXT)  BEGIN		
 		INSERT INTO proveedor(nombre,ruc,dni,direccion,telefono,celular,email,cuenta1,cuenta2,estado,obsv)
 		VALUES(pnombre,pruc,pdni,pdireccion,ptelefono,pcelular,pemail,pcuenta1,pcuenta2,pestado,pobsv);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Talla` (`pdescripcion` VARCHAR(100))  BEGIN		
+CREATE  PROCEDURE `SP_I_Talla` (`pdescripcion` VARCHAR(100))  BEGIN		
 		INSERT INTO talla(descripcion)
 		VALUES(pdescripcion);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_TipoCambio` (`ptipocambio` DECIMAL(4,2))  BEGIN		
+CREATE  PROCEDURE `SP_I_TipoCambio` (`ptipocambio` DECIMAL(4,2))  BEGIN		
 		INSERT INTO tipodocumento(tipocambio)
 		VALUES(ptipocambio);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_TipoDocumento` (`pdescripcion` VARCHAR(80))  BEGIN		
+CREATE  PROCEDURE `SP_I_TipoDocumento` (`pdescripcion` VARCHAR(80))  BEGIN		
 		INSERT INTO tipodocumento(descripcion)
 		VALUES(pdescripcion);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_TipoUsuario` (`pdescripcion` VARCHAR(80), `pp_venta` INT, `pp_compra` INT, `pp_producto` INT, `pp_proveedor` INT, `pp_empleado` INT, `pp_cliente` INT, `pp_categoria` INT, `pp_tipodoc` INT, `pp_tipouser` INT, `pp_anularv` INT, `pp_anularc` INT, `pp_estadoprod` INT, `pp_ventare` INT, `pp_ventade` INT, `pp_estadistica` INT, `pp_comprare` INT, `pp_comprade` INT, `pp_pass` INT, `pp_respaldar` INT, `pp_restaurar` INT, `pp_caja` INT)  BEGIN		
+CREATE  PROCEDURE `SP_I_TipoUsuario` (`pdescripcion` VARCHAR(80), `pp_venta` INT, `pp_compra` INT, `pp_producto` INT, `pp_proveedor` INT, `pp_empleado` INT, `pp_cliente` INT, `pp_categoria` INT, `pp_tipodoc` INT, `pp_tipouser` INT, `pp_anularv` INT, `pp_anularc` INT, `pp_estadoprod` INT, `pp_ventare` INT, `pp_ventade` INT, `pp_estadistica` INT, `pp_comprare` INT, `pp_comprade` INT, `pp_pass` INT, `pp_respaldar` INT, `pp_restaurar` INT, `pp_caja` INT)  BEGIN		
 		INSERT INTO tipousuario(descripcion,p_venta,p_compra,p_producto,p_proveedor,p_empleado,p_cliente,p_categoria,p_tipodoc,p_tipouser,p_anularv,p_anularc,
 		p_estadoprod,p_ventare,p_ventade,p_estadistica,p_comprare,p_comprade,p_pass,p_respaldar,p_restaurar,p_caja)
 		VALUES(pdescripcion,pp_venta,pp_compra,pp_producto,pp_proveedor,pp_empleado,pp_cliente,pp_categoria,pp_tipodoc,pp_tipouser,pp_anularv,pp_anularc,
 		pp_estadoprod,pp_ventare,pp_ventade,pp_estadistica,pp_comprare,pp_comprade,pp_pass,pp_respaldar,pp_restaurar,pp_caja);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_I_Venta` (`pidtipodocumento` INT, `pidcliente` INT, `pidempleado` INT, `pserie` VARCHAR(5), `pnumero` VARCHAR(20), `pfecha` DATE, `ptotalventa` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotalpagar` DECIMAL(8,2), `pestado` VARCHAR(30), `ppago` VARCHAR(30), `ppromo` VARCHAR(50), `pdescuento` DECIMAL(8,2), `preferencia` VARCHAR(30), `pttotal` DECIMAL(8,2))  BEGIN		
+CREATE  PROCEDURE `SP_I_Venta` (`pidtipodocumento` INT, `pidcliente` INT, `pidempleado` INT, `pserie` VARCHAR(5), `pnumero` VARCHAR(20), `pfecha` DATE, `ptotalventa` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotalpagar` DECIMAL(8,2), `pestado` VARCHAR(30), `ppago` VARCHAR(30), `ppromo` VARCHAR(50), `pdescuento` DECIMAL(8,2), `preferencia` VARCHAR(30), `pttotal` DECIMAL(8,2))  BEGIN		
 		INSERT INTO venta(idtipodocumento,idcliente,idempleado,serie,numero,fecha,totalventa,igv,totalpagar,estado,pago,promo,descuento,referencia,ttotal)
 		VALUES(pidtipodocumento,pidcliente,pidempleado,pserie,pnumero,pfecha,ptotalventa,pigv,ptotalpagar,pestado,ppago,ppromo,pdescuento,preferencia,pttotal);
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_CATEGORIAS` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_CATEGORIAS` ()  BEGIN
 	select count(*) as cantidad_categoria from categoria;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_COLORES` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_COLORES` ()  BEGIN
 	select count(*) as cantidad_colores from color;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_COMPRAS` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_COMPRAS` ()  BEGIN
 	select count(*) as cantidad_compras from compra where Fecha like curdate();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_PRODUCTOS` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_PRODUCTOS` ()  BEGIN
 	select count(*) as cantidad_producto from producto;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_PROVEEDORES` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_PROVEEDORES` ()  BEGIN
 	select count(*) as cantidad_proveedores from proveedor;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_TALLAS` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_TALLAS` ()  BEGIN
 	select count(*) as cantidad_tallas from talla;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CANTIDAD_VENTAS` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CANTIDAD_VENTAS` ()  BEGIN
 	select count(*) as cantidad_ventas from venta where Fecha like curdate();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Categoria` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Categoria` ()  BEGIN
 		SELECT * FROM categoria ORDER BY descripcion ASC;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CategoriaCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CategoriaCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM categoria;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CategoriaIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_CategoriaIdMaximo` ()  BEGIN
 		SELECT MAX(IdCategoria) AS Maximo FROM categoria;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CategoriaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_CategoriaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 		IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT c.IdCategoria,c.Descripcion FROM categoria AS c WHERE c.IdCategoria=",pbusqueda," ORDER BY c.IdCategoria DESC ",plimit);
 			PREPARE consulta FROM @sentencia;
@@ -192,19 +192,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CategoriaPorParametro` (`pcrit
 		END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Cliente` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Cliente` ()  BEGIN
 		SELECT * FROM cliente;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ClienteCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ClienteCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM cliente;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ClienteIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ClienteIdMaximo` ()  BEGIN
 		SELECT MAX(IdCliente) AS Maximo FROM cliente;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ClientePorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN	
+CREATE  PROCEDURE `SP_S_ClientePorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN	
 		IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT c.IdCliente,c.Nombre,c.Ruc,c.Dni,c.Direccion,c.Telefono,c.Obsv,c.Usuario,c.Contrasena FROM cliente AS c WHERE c.IdCliente=",pbusqueda," ORDER BY c.IdCliente DESC ",plimit);
 			PREPARE consulta FROM @sentencia;
@@ -229,19 +229,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ClientePorParametro` (`pcriter
 	 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Color` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Color` ()  BEGIN
 		SELECT * FROM color ORDER BY descripcion ASC;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ColorCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ColorCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM color;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ColorIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ColorIdMaximo` ()  BEGIN
 		SELECT MAX(IdColor) AS Maximo FROM color;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ColorPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_ColorPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 		IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT c.IdColor,c.Descripcion FROM color AS c WHERE c.IdColor=",pbusqueda," ORDER BY c.IdColor DESC ",plimit);
 			PREPARE consulta FROM @sentencia;
@@ -257,7 +257,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ColorPorParametro` (`pcriterio
 		END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Compra` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Compra` ()  BEGIN
 		SELECT c.IdCompra,td.Descripcion AS TipoDocumento,p.Nombre AS Proveedor,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,c.Numero,c.Fecha,c.SubTotal,c.Igv,c.Total,c.Estado
 		FROM compra AS c
 		INNER JOIN tipodocumento AS td ON c.IdTipoDocumento=td.IdTipoDocumento	 
@@ -266,7 +266,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Compra` ()  BEGIN
 		ORDER BY c.IdCompra;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CompraPorDetalle` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE)  BEGIN
+CREATE  PROCEDURE `SP_S_CompraPorDetalle` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE)  BEGIN
 		IF pcriterio = "consultar" THEN
 			SELECT p.Codigo,p.Nombre AS Producto,ca.Descripcion AS Categoria,dc.Precio,
 			SUM(dc.Cantidad) AS Cantidad,SUM(dc.Total) AS Total FROM compra AS c
@@ -279,7 +279,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CompraPorDetalle` (`pcriterio`
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CompraPorFecha` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE, `pdocumento` VARCHAR(30))  BEGIN
+CREATE  PROCEDURE `SP_S_CompraPorFecha` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE, `pdocumento` VARCHAR(30))  BEGIN
 		IF pcriterio = "anular" THEN
 			SELECT c.IdCompra,p.Nombre AS Proveedor,c.Fecha,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,td.Descripcion AS TipoDocumento,c.Numero,
 			c.Estado,c.Total FROM compra AS c
@@ -304,7 +304,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CompraPorFecha` (`pcriterio` V
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CompraPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_CompraPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 			IF pcriterio = "id" THEN
 				SELECT c.IdCompra,td.Descripcion AS TipoDocumento,p.Nombre AS Proveedor,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,c.Numero,c.Fecha,c.SubTotal,
 				c.Igv,c.Total,c.Estado  FROM compra AS c
@@ -324,16 +324,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_CompraPorParametro` (`pcriteri
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_COMPRA_TOTAL_DIARIA` ()  BEGIN
+CREATE  PROCEDURE `SP_S_COMPRA_TOTAL_DIARIA` ()  BEGIN
 select sum(dc.Cantidad * dc.Precio) as total_compras from
 	compra c inner join detallecompra dc on c.IdCompra = dc.IdCompra where c.Fecha like curdate();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_DetalleCompra` ()  BEGIN
+CREATE  PROCEDURE `SP_S_DetalleCompra` ()  BEGIN
 		SELECT * FROM detallecompra;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_DetalleCompraPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_DetalleCompraPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 			IF pcriterio = "id" THEN
 				SELECT dc.IdCompra,p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,dc.Cantidad,dc.Precio,dc.Total  FROM detallecompra AS dc
 				INNER JOIN producto AS p ON dc.IdProducto=p.IdProducto
@@ -343,11 +343,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_DetalleCompraPorParametro` (`p
 			
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_DetalleVenta` ()  BEGIN
+CREATE  PROCEDURE `SP_S_DetalleVenta` ()  BEGIN
 		SELECT * FROM detalleventa;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_DetalleVentaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_DetalleVentaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 			IF pcriterio = "id" THEN
 				SELECT dv.IdVenta,p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,dv.Cantidad,dv.Precio,dv.Descuento,dv.Total  FROM detalleventa AS dv
 				INNER JOIN producto AS p ON dv.IdProducto=p.IdProducto
@@ -357,7 +357,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_DetalleVentaPorParametro` (`pc
 			
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Empleado` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_Empleado` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 	IF pcriterio = "id" THEN
 		SELECT e.IdEmpleado,e.Nombre,e.Apellido,e.Sexo,e.FechaNac,e.Direccion,e.Telefono,e.Celular,e.Email,
 		e.Dni,e.FechaIng,e.Sueldo,e.Estado,e.Usuario,e.Contrasena,e.IdTipoUsuario
@@ -376,15 +376,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Empleado` (`pcriterio` VARCHAR
 	END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_EmpleadoCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_EmpleadoCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM empleado;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_EmpleadoIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_EmpleadoIdMaximo` ()  BEGIN
 		SELECT MAX(IdEmpleado) AS Maximo FROM empleado;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_EmpleadoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_EmpleadoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 	
 	
 	IF pcriterio = "id" THEN					
@@ -409,13 +409,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_EmpleadoPorParametro` (`pcrite
 	
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_INGRESAR_SISTEMA` (`n_usuario` VARCHAR(20), `n_contrasena` TEXT)  BEGIN
+CREATE  PROCEDURE `SP_S_INGRESAR_SISTEMA` (`n_usuario` VARCHAR(20), `n_contrasena` TEXT)  BEGIN
 
 select e.*, tu.Descripcion from empleado e inner join tipousuario tu 
 	WHERE e.Usuario like n_usuario and e.Contrasena like MD5(n_contrasena);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Login` (`pusuario` VARCHAR(20), `pcontrasena` TEXT, `pdescripcion` VARCHAR(80))  BEGIN
+CREATE  PROCEDURE `SP_S_Login` (`pusuario` VARCHAR(20), `pcontrasena` TEXT, `pdescripcion` VARCHAR(80))  BEGIN
 	
 		SELECT e.IdEmpleado,e.Nombre,e.Apellido,e.Sexo,e.FechaNac,e.Direccion,e.Telefono,e.Celular,e.Email,
 		e.Dni,e.FechaIng,e.Sueldo,e.Estado,e.Usuario,e.Contrasena,tu.Descripcion
@@ -423,7 +423,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Login` (`pusuario` VARCHAR(20)
 		
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_LoginPermisos` (`pnombre_usuario` VARCHAR(20), `pdescripcion_tipousuario` VARCHAR(80))  BEGIN
+CREATE  PROCEDURE `SP_S_LoginPermisos` (`pnombre_usuario` VARCHAR(20), `pdescripcion_tipousuario` VARCHAR(80))  BEGIN
 	
 		SELECT tu.IdTipoUsuario,e.Usuario,tu.Descripcion,tu.p_venta,tu.p_compra,tu.p_producto,tu.p_proveedor,tu.p_empleado,tu.p_cliente,tu.p_categoria,tu.p_tipodoc,tu.p_tipouser,
 		tu.p_anularv,tu.p_anularc,tu.p_estadoprod,tu.p_ventare,tu.p_ventade,tu.p_estadistica,tu.p_comprare,tu.p_comprade,tu.p_pass,tu.p_respaldar,tu.p_restaurar,tu.p_caja
@@ -431,7 +431,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_LoginPermisos` (`pnombre_usuar
 		
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Producto` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(50))  BEGIN
+CREATE  PROCEDURE `SP_S_Producto` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(50))  BEGIN
 	IF pcriterio = "id" THEN
 		SELECT p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,p.Stock,p.StockMin,p.PrecioCosto,p.PrecioVenta,p.Utilidad,p.Estado,p.Imagen,p.IdCategoria,p.IdProveedor,p.IdColor,p.IdTalla
 		FROM producto AS p WHERE p.IdProducto=pbusqueda;
@@ -450,13 +450,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Producto` (`pcriterio` VARCHAR
 	END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoActivo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ProductoActivo` ()  BEGIN
 		SELECT p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,p.Stock,p.StockMin,p.PrecioCosto,p.PrecioVenta,p.Utilidad,p.Estado,p.Imagen,c.Descripcion AS categoria
 		FROM producto AS p INNER JOIN categoria AS c ON p.IdCategoria=c.IdCategoria WHERE p.Estado="Activo"
 		ORDER BY p.IdProducto;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoActivoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(50))  BEGIN
+CREATE  PROCEDURE `SP_S_ProductoActivoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(50))  BEGIN
 	IF pcriterio = "id" THEN
 		SELECT p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,p.Stock,p.StockMin,p.PrecioCosto,p.PrecioVenta,p.Utilidad,p.Estado,p.Imagen,c.Descripcion AS Categoria
 		FROM producto AS p INNER JOIN categoria AS c ON p.IdCategoria = c.IdCategoria
@@ -483,15 +483,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoActivoPorParametro` (`
 	END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ProductoCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM producto;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ProductoIdMaximo` ()  BEGIN
 		SELECT MAX(IdProducto) AS Maximo FROM producto;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(50), `plimit` VARCHAR(50))  BEGIN		
+CREATE  PROCEDURE `SP_S_ProductoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(50), `plimit` VARCHAR(50))  BEGIN		
 		
 	IF pcriterio = "id" THEN					
 			SET @sentencia = CONCAT("SELECT p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,p.Stock,p.StockMin,p.PrecioCosto,p.PrecioVenta,p.Utilidad,p.Estado,p.Imagen,c.Descripcion AS Categoria ,pr.Nombre AS Proveedor, cl.Descripcion AS Color, t.Descripcion AS Talla FROM producto AS p INNER JOIN categoria AS c ON p.IdCategoria = c.IdCategoria INNER JOIN proveedor AS pr ON p.IdProveedor = pr.IdProveedor INNER JOIN color AS cl ON p.IdColor = cl.IdColor INNER JOIN talla AS t ON p.IdTalla = t.IdTalla  WHERE p.IdProducto=",pbusqueda," ORDER BY p.IdProducto DESC ",plimit);
@@ -537,7 +537,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoPorParametro` (`pcrite
 		
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoVerificarCodigoBar` (`pbusqueda` VARCHAR(50))  BEGIN
+CREATE  PROCEDURE `SP_S_ProductoVerificarCodigoBar` (`pbusqueda` VARCHAR(50))  BEGIN
 	
 		SELECT p.IdProducto,p.Codigo,p.Nombre,p.Descripcion,p.Stock,p.StockMin,p.PrecioCosto,p.PrecioVenta,p.Utilidad,p.Estado,p.Imagen,c.Descripcion AS Categoria
 		FROM producto AS p INNER JOIN categoria AS c ON p.IdCategoria = c.IdCategoria
@@ -545,19 +545,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProductoVerificarCodigoBar` (`
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Promocion` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Promocion` ()  BEGIN
 		SELECT * FROM promocion;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_PromocionCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_PromocionCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM promocion;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_PromocionIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_PromocionIdMaximo` ()  BEGIN
 		SELECT MAX(IdPromocion) AS Maximo FROM promocion;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_PromocionPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_PromocionPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 			
 	IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT p.IdPromocion,p.Codigo,p.Descuento,p.Estado FROM promocion AS p WHERE p.IdPromocion=",pbusqueda," ORDER BY p.IdPromocion DESC ",plimit);
@@ -576,19 +576,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_PromocionPorParametro` (`pcrit
 	
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Proveedor` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Proveedor` ()  BEGIN
 		SELECT * FROM proveedor ORDER BY Nombre;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProveedorCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ProveedorCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM proveedor;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProveedorIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_ProveedorIdMaximo` ()  BEGIN
 		SELECT MAX(IdProveedor) AS Maximo FROM proveedor;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProveedorPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_ProveedorPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 	
 	
 	IF pcriterio = "id" THEN					
@@ -616,19 +616,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_ProveedorPorParametro` (`pcrit
 	
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Talla` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Talla` ()  BEGIN
 		SELECT * FROM talla ORDER BY descripcion ASC;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TallaCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TallaCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM talla;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TallaIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TallaIdMaximo` ()  BEGIN
 		SELECT MAX(IdTalla) AS Maximo FROM talla;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TallaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_TallaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 		IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT t.IdTalla,t.Descripcion FROM talla AS t WHERE t.IdTalla=",pbusqueda," ORDER BY t.IdTalla DESC ",plimit);
 			PREPARE consulta FROM @sentencia;
@@ -644,19 +644,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TallaPorParametro` (`pcriterio
 		END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoCambio` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoCambio` ()  BEGIN
 		SELECT TipoCambio FROM tipocambio;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoCambioCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoCambioCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM tipocambio;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoCambioIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoCambioIdMaximo` ()  BEGIN
 		SELECT MAX(IdTipoCambio) AS Maximo FROM tipocambio;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoCambioPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_TipoCambioPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 			
 	IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT tc.IdTipoCambio,tc.TipoCambio FROM tipocambio AS tc WHERE tc.IdTipoCambio=",pbusqueda," ORDER BY tc.IdTipoCambio DESC ",plimit);
@@ -675,19 +675,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoCambioPorParametro` (`pcri
 	
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoDocumento` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoDocumento` ()  BEGIN
 		SELECT * FROM tipodocumento;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoDocumentoCantidadTotal` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoDocumentoCantidadTotal` ()  BEGIN
 		SELECT COUNT(*) as total FROM tipodocumento;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoDocumentoIdMaximo` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoDocumentoIdMaximo` ()  BEGIN
 		SELECT MAX(IdTipoDocumento) AS Maximo FROM tipodocumento;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoDocumentoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_TipoDocumentoPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20), `plimit` VARCHAR(20))  BEGIN
 			
 	IF pcriterio = "id" THEN		
 			SET @sentencia = CONCAT("SELECT td.IdTipoDocumento,td.Descripcion FROM tipodocumento AS td WHERE td.IdTipoDocumento=",pbusqueda," ORDER BY td.IdTipoDocumento DESC ",plimit);
@@ -706,11 +706,11 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoDocumentoPorParametro` (`p
 	
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoUsuario` ()  BEGIN
+CREATE  PROCEDURE `SP_S_TipoUsuario` ()  BEGIN
 		SELECT * FROM tipousuario;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoUsuarioPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_TipoUsuarioPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 	IF pcriterio = "id" THEN
 		SELECT * FROM tipousuario AS tp WHERE tp.IdTipoUsuario=pbusqueda;
 	ELSEIF pcriterio = "descripcion" THEN
@@ -720,15 +720,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_TipoUsuarioPorParametro` (`pcr
 	END IF; 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_UltimoIdCompra` ()  BEGIN
+CREATE  PROCEDURE `SP_S_UltimoIdCompra` ()  BEGIN
 		SELECT MAX(IdCompra) AS id FROM compra;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_UltimoIdVenta` ()  BEGIN
+CREATE  PROCEDURE `SP_S_UltimoIdVenta` ()  BEGIN
 		SELECT MAX(IdVenta) AS id FROM venta;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Venta` ()  BEGIN
+CREATE  PROCEDURE `SP_S_Venta` ()  BEGIN
 		SELECT v.IdVenta,td.Descripcion AS TipoDocumento,c.Nombre AS Cliente,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,v.Serie,v.Numero,v.Fecha,v.TotalVenta,
 		v.Igv,v.TotalPagar,v.Estado,v.Pago
 		FROM venta AS v 
@@ -738,7 +738,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Venta` ()  BEGIN
 		ORDER BY v.IdVenta;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaMensual` (`pcriterio` VARCHAR(20), `pfecha_ini` VARCHAR(20), `pfecha_fin` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_VentaMensual` (`pcriterio` VARCHAR(20), `pfecha_ini` VARCHAR(20), `pfecha_fin` VARCHAR(20))  BEGIN
 			IF pcriterio = "consultar" THEN
 			SELECT CONCAT(DAY(v.Fecha)," ",UPPER(MONTHNAME(v.Fecha))," ",YEAR(v.Fecha)) AS Fecha,SUM(v.TotalPagar) AS Total,
 				ROUND((SUM(v.TotalPagar)*100)/(SELECT SUM(v.TotalPagar) AS TotalVenta FROM venta AS v WHERE ((date_format(v.Fecha,'%Y-%m') >= pfecha_ini) AND (date_format(v.Fecha,'%Y-%m') <= pfecha_fin)) AND v.Estado="EMITIDO")) AS Porcentaje
@@ -750,7 +750,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaMensual` (`pcriterio` VAR
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaPorDetalle` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE)  BEGIN
+CREATE  PROCEDURE `SP_S_VentaPorDetalle` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE)  BEGIN
 		IF pcriterio = "consultar" THEN
 			SELECT p.Codigo,p.Nombre AS Producto,c.Descripcion AS Categoria,dv.Costo,dv.Precio,
 			SUM(dv.Cantidad) AS Cantidad,SUM(dv.Total) AS Total, SUM(v.TTotal) AS Total2,
@@ -791,7 +791,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaPorDetalle` (`pcriterio` 
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaPorFecha` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE, `pdocumento` VARCHAR(30))  BEGIN
+CREATE  PROCEDURE `SP_S_VentaPorFecha` (`pcriterio` VARCHAR(30), `pfechaini` DATE, `pfechafin` DATE, `pdocumento` VARCHAR(30))  BEGIN
 		IF pcriterio = "anular" THEN
 			SELECT v.IdVenta,c.Nombre AS Cliente,v.Fecha,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,td.Descripcion AS TipoDocumento,v.Serie,v.Numero,
 			v.Estado,V.Pago,v.TotalPagar  FROM venta AS v
@@ -827,7 +827,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaPorFecha` (`pcriterio` VA
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_VentaPorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 			IF pcriterio = "id" THEN
 				SELECT v.IdVenta,td.Descripcion AS TipoDocumento,c.Nombre AS Cliente,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,v.Serie,v.Numero,v.Fecha,v.TotalVenta,
 				v.Igv,v.Promo,v.Descuento,v.TotalPagar,v.Estado  FROM venta AS v
@@ -847,7 +847,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VentaPorParametro` (`pcriterio
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Venta_DetallePorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
+CREATE  PROCEDURE `SP_S_Venta_DetallePorParametro` (`pcriterio` VARCHAR(20), `pbusqueda` VARCHAR(20))  BEGIN
 			IF pcriterio = "id" THEN
 				SELECT v.IdVenta,td.Descripcion AS TipoDocumento,c.Nombre AS Cliente,CONCAT(e.Nombre," ",e.Apellido) AS Empleado,v.Serie,v.Numero,v.Fecha,v.TotalVenta,
 				v.Igv,v.TotalPagar,v.Estado,p.Codigo,p.Nombre,dv.Cantidad,p.PrecioVenta,dv.Total  FROM venta AS v
@@ -863,42 +863,42 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_Venta_DetallePorParametro` (`p
 
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_S_VENTA_TOTAL_DIARIA` ()  BEGIN
+CREATE  PROCEDURE `SP_S_VENTA_TOTAL_DIARIA` ()  BEGIN
 	select sum(dv.Cantidad * dv.Precio) as total_ventas, sum(v.TTotal) AS Total2 from
 	venta v inner join detalleventa dv on v.IdVenta = dv.IdVenta where v.Fecha like curdate();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_ActualizarCompraEstado` (`pidcompra` INT, `pestado` VARCHAR(30))  BEGIN
+CREATE  PROCEDURE `SP_U_ActualizarCompraEstado` (`pidcompra` INT, `pestado` VARCHAR(30))  BEGIN
 		UPDATE compra SET
 			estado=pestado
 		WHERE idcompra = pidcompra;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_ActualizarProductoStock` (`pidproducto` INT, `pstock` DECIMAL(8,2))  BEGIN
+CREATE  PROCEDURE `SP_U_ActualizarProductoStock` (`pidproducto` INT, `pstock` DECIMAL(8,2))  BEGIN
 		UPDATE producto SET
 			stock=pstock
 		WHERE idproducto = pidproducto;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_ActualizarVentaEstado` (`pidventa` INT, `pestado` VARCHAR(30))  BEGIN
+CREATE  PROCEDURE `SP_U_ActualizarVentaEstado` (`pidventa` INT, `pestado` VARCHAR(30))  BEGIN
 		UPDATE venta SET
 			estado=pestado
 		WHERE idventa = pidventa;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_CambiarPass` (`pidempleado` INT, `pcontrasena` TEXT)  BEGIN
+CREATE  PROCEDURE `SP_U_CambiarPass` (`pidempleado` INT, `pcontrasena` TEXT)  BEGIN
 		UPDATE empleado SET
 			contrasena=pcontrasena
 		WHERE idempleado = pidempleado;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Categoria` (`pidcategoria` INT, `pdescripcion` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `SP_U_Categoria` (`pidcategoria` INT, `pdescripcion` VARCHAR(100))  BEGIN
 		UPDATE categoria SET
 			descripcion=pdescripcion	
 		WHERE idcategoria = pidcategoria;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Cliente` (`pidcliente` INT, `pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(50), `ptelefono` VARCHAR(15), `pobsv` TEXT, `pusuario` VARCHAR(30), `pcontrasena` VARCHAR(10))  BEGIN
+CREATE  PROCEDURE `SP_U_Cliente` (`pidcliente` INT, `pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(50), `ptelefono` VARCHAR(15), `pobsv` TEXT, `pusuario` VARCHAR(30), `pcontrasena` VARCHAR(10))  BEGIN
 		UPDATE cliente SET
 			nombre=pnombre,
 			ruc=pruc,
@@ -911,13 +911,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Cliente` (`pidcliente` INT, `p
 		WHERE idcliente = pidcliente;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Color` (`pidcategoria` INT, `pdescripcion` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `SP_U_Color` (`pidcategoria` INT, `pdescripcion` VARCHAR(100))  BEGIN
 		UPDATE color SET
 			descripcion=pdescripcion	
 		WHERE idcolor = pidcolor;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Compra` (`pidcompra` INT, `pidtipodocumento` INT, `pidproveedor` INT, `pidempleado` INT, `pnumero` VARCHAR(20), `pfecha` DATE, `psubtotal` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotal` DECIMAL(8,2), `pestado` VARCHAR(30))  BEGIN
+CREATE  PROCEDURE `SP_U_Compra` (`pidcompra` INT, `pidtipodocumento` INT, `pidproveedor` INT, `pidempleado` INT, `pnumero` VARCHAR(20), `pfecha` DATE, `psubtotal` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotal` DECIMAL(8,2), `pestado` VARCHAR(30))  BEGIN
 		UPDATE compra SET
 			idtipodocumento=pidtipodocumento,
 			idproveedor=pidproveedor,
@@ -931,7 +931,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Compra` (`pidcompra` INT, `pid
 		WHERE idcompra = pidcompra;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_DetalleCompra` (`pidcompra` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN
+CREATE  PROCEDURE `SP_U_DetalleCompra` (`pidcompra` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN
 		UPDATE venta SET
 			idcompra=pidcompra,
 			idproducto=pidproducto,
@@ -941,7 +941,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_DetalleCompra` (`pidcompra` IN
 		WHERE idcompra = pidcompra;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_DetalleVenta` (`pidventa` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pcosto` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `pdescuento` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN
+CREATE  PROCEDURE `SP_U_DetalleVenta` (`pidventa` INT, `pidproducto` INT, `pcantidad` DECIMAL(8,2), `pcosto` DECIMAL(8,2), `pprecio` DECIMAL(8,2), `pdescuento` DECIMAL(8,2), `ptotal` DECIMAL(8,2))  BEGIN
 		UPDATE venta SET
 			idventa=pidventa,
 			idproducto=pidproducto,
@@ -953,7 +953,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_DetalleVenta` (`pidventa` INT,
 		WHERE idventa = pidventa;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Empleado` (`pidempleado` INT, `pnombre` VARCHAR(50), `papellido` VARCHAR(80), `psexo` VARCHAR(1), `pfechanac` DATE, `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pdni` VARCHAR(8), `pfechaing` DATE, `psueldo` DECIMAL(8,2), `pestado` VARCHAR(30), `pusuario` VARCHAR(20), `pcontrasena` TEXT, `pidtipousuario` INT)  BEGIN
+CREATE  PROCEDURE `SP_U_Empleado` (`pidempleado` INT, `pnombre` VARCHAR(50), `papellido` VARCHAR(80), `psexo` VARCHAR(1), `pfechanac` DATE, `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pdni` VARCHAR(8), `pfechaing` DATE, `psueldo` DECIMAL(8,2), `pestado` VARCHAR(30), `pusuario` VARCHAR(20), `pcontrasena` TEXT, `pidtipousuario` INT)  BEGIN
 		UPDATE empleado SET
 			nombre=pnombre,
 			apellido=papellido,
@@ -973,7 +973,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Empleado` (`pidempleado` INT, 
 		WHERE idempleado = pidempleado;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Producto` (`pidproducto` INT, `pcodigo` VARCHAR(50), `pnombre` VARCHAR(100), `pdescripcion` TEXT, `pstock` DECIMAL(8,2), `pstockmin` DECIMAL(8,2), `ppreciocosto` DECIMAL(8,2), `pprecioventa` DECIMAL(8,2), `putilidad` DECIMAL(8,2), `pestado` VARCHAR(30), `pimagen` VARCHAR(100), `pidcategoria` INT, `pidproveedor` INT, `pidcolor` INT, `pidtalla` INT)  BEGIN
+CREATE  PROCEDURE `SP_U_Producto` (`pidproducto` INT, `pcodigo` VARCHAR(50), `pnombre` VARCHAR(100), `pdescripcion` TEXT, `pstock` DECIMAL(8,2), `pstockmin` DECIMAL(8,2), `ppreciocosto` DECIMAL(8,2), `pprecioventa` DECIMAL(8,2), `putilidad` DECIMAL(8,2), `pestado` VARCHAR(30), `pimagen` VARCHAR(100), `pidcategoria` INT, `pidproveedor` INT, `pidcolor` INT, `pidtalla` INT)  BEGIN
 		UPDATE producto SET
 			codigo=pcodigo,
 			nombre=pnombre,
@@ -993,7 +993,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Producto` (`pidproducto` INT, 
 		WHERE idproducto = pidproducto;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Promocion` (`pidpromocion` INT, `pcodigo` VARCHAR(50), `pdescuento` DECIMAL(4,2), `pestado` VARCHAR(50))  BEGIN
+CREATE  PROCEDURE `SP_U_Promocion` (`pidpromocion` INT, `pcodigo` VARCHAR(50), `pdescuento` DECIMAL(4,2), `pestado` VARCHAR(50))  BEGIN
 		UPDATE promocion SET
 			codigo=pcodigo,
 			descuento=pdescuento,
@@ -1001,7 +1001,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Promocion` (`pidpromocion` INT
 		WHERE idpromocion = pidpromocion;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Proveedor` (`pidproveedor` INT, `pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pcuenta1` VARCHAR(50), `pcuenta2` VARCHAR(50), `pestado` VARCHAR(30), `pobsv` TEXT)  BEGIN
+CREATE  PROCEDURE `SP_U_Proveedor` (`pidproveedor` INT, `pnombre` VARCHAR(100), `pruc` VARCHAR(11), `pdni` VARCHAR(8), `pdireccion` VARCHAR(100), `ptelefono` VARCHAR(10), `pcelular` VARCHAR(15), `pemail` VARCHAR(80), `pcuenta1` VARCHAR(50), `pcuenta2` VARCHAR(50), `pestado` VARCHAR(30), `pobsv` TEXT)  BEGIN
 		UPDATE proveedor SET
 			nombre=pnombre,
 			ruc=pruc,
@@ -1017,25 +1017,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Proveedor` (`pidproveedor` INT
 		WHERE idproveedor = pidproveedor;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Talla` (`pidcategoria` INT, `pdescripcion` VARCHAR(100))  BEGIN
+CREATE  PROCEDURE `SP_U_Talla` (`pidcategoria` INT, `pdescripcion` VARCHAR(100))  BEGIN
 		UPDATE talla SET
 			descripcion=pdescripcion	
 		WHERE idtalla = pidtalla;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_TipoCambio` (`pidtipocambio` INT, `ptipocambio` DECIMAL(4,2))  BEGIN
+CREATE  PROCEDURE `SP_U_TipoCambio` (`pidtipocambio` INT, `ptipocambio` DECIMAL(4,2))  BEGIN
 		UPDATE tipocambio SET
 			tipocambio=ptipocambio	
 		WHERE idtipocambio = pidtipocambio;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_TipoDocumento` (`pidtipodocumento` INT, `pdescripcion` VARCHAR(80))  BEGIN
+CREATE  PROCEDURE `SP_U_TipoDocumento` (`pidtipodocumento` INT, `pdescripcion` VARCHAR(80))  BEGIN
 		UPDATE tipodocumento SET
 			descripcion=pdescripcion	
 		WHERE idtipodocumento = pidtipodocumento;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_TipoUsuario` (`pidtipousuario` INT, `pdescripcion` VARCHAR(80), `pp_venta` INT, `pp_compra` INT, `pp_producto` INT, `pp_proveedor` INT, `pp_empleado` INT, `pp_cliente` INT, `pp_categoria` INT, `pp_tipodoc` INT, `pp_tipouser` INT, `pp_anularv` INT, `pp_anularc` INT, `pp_estadoprod` INT, `pp_ventare` INT, `pp_ventade` INT, `pp_estadistica` INT, `pp_comprare` INT, `pp_comprade` INT, `pp_pass` INT, `pp_respaldar` INT, `pp_restaurar` INT, `pp_caja` INT)  BEGIN
+CREATE  PROCEDURE `SP_U_TipoUsuario` (`pidtipousuario` INT, `pdescripcion` VARCHAR(80), `pp_venta` INT, `pp_compra` INT, `pp_producto` INT, `pp_proveedor` INT, `pp_empleado` INT, `pp_cliente` INT, `pp_categoria` INT, `pp_tipodoc` INT, `pp_tipouser` INT, `pp_anularv` INT, `pp_anularc` INT, `pp_estadoprod` INT, `pp_ventare` INT, `pp_ventade` INT, `pp_estadistica` INT, `pp_comprare` INT, `pp_comprade` INT, `pp_pass` INT, `pp_respaldar` INT, `pp_restaurar` INT, `pp_caja` INT)  BEGIN
 		UPDATE tipousuario SET
 			descripcion=pdescripcion,
 			p_venta=pp_venta,
@@ -1062,7 +1062,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_TipoUsuario` (`pidtipousuario`
 		WHERE idtipousuario = pidtipousuario;
 	END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Venta` (`pidventa` INT, `pidtipodocumento` INT, `pidcliente` INT, `pidempleado` INT, `pserie` VARCHAR(5), `pnumero` VARCHAR(20), `pfecha` DATE, `ptotalventa` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotalpagar` DECIMAL(8,2), `pestado` VARCHAR(30))  BEGIN
+CREATE  PROCEDURE `SP_U_Venta` (`pidventa` INT, `pidtipodocumento` INT, `pidcliente` INT, `pidempleado` INT, `pserie` VARCHAR(5), `pnumero` VARCHAR(20), `pfecha` DATE, `ptotalventa` DECIMAL(8,2), `pigv` DECIMAL(8,2), `ptotalpagar` DECIMAL(8,2), `pestado` VARCHAR(30))  BEGIN
 		UPDATE venta SET
 			idtipodocumento=pidtipodocumento,
 			idcliente=pidcliente,
@@ -1080,7 +1080,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_U_Venta` (`pidventa` INT, `pidti
 --
 -- Funciones
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `DiaEnLetras` (`pfecha` DATE) RETURNS VARCHAR(10) CHARSET latin1 BEGIN
+CREATE  FUNCTION `DiaEnLetras` (`pfecha` DATE) RETURNS VARCHAR(10) CHARSET latin1 BEGIN
 DECLARE Dia varchar(10);
 SELECT 
 CONCAT(ELT(WEEKDAY( PFECHA ) + 1, 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')) 
